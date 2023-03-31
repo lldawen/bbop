@@ -1,0 +1,15 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    url: jdbc:h2:mem:bbopdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+  h2:
+    console:
+      enabled: true
