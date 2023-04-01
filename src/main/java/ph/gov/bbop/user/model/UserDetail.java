@@ -52,7 +52,7 @@ public class UserDetail extends BaseModel {
     @Column(name = "CONTACT_NO_1", length = 20, nullable = false)
     private String contactNo1;
 
-    @Column(name = "CONTACT_NO_2", length = 20, nullable = false)
+    @Column(name = "CONTACT_NO_2", length = 20)
     private String contactNo2;
 
     @Column(length = 75, nullable = false)
