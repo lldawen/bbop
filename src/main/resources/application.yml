@@ -2,7 +2,7 @@ server:
   port: 8081
 spring:
   datasource:
-    url: jdbc:h2:mem:bbopdb
+    url: jdbc:h2:file:F:\Dawen\Brgy Bagongpook Online Portal\bbop\database\bbopdb;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
     username: sa
     password: password
@@ -10,6 +10,7 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
+    show-sql: true
   h2:
     console:
       enabled: true
