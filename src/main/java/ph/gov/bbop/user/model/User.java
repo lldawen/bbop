@@ -11,7 +11,6 @@ import ph.gov.bbop.common.model.BaseModel;
 @Table(name = "BBOP_USER")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseModel {
 

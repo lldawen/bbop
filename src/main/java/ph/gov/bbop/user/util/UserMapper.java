@@ -13,16 +13,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class UserDtoMapping {
+public class UserMapper {
 
-    public List<UserDto> fromEntity(List<User> users) {
-        return users.stream().map(this::fromEntity).collect(Collectors.toList());
+    public List<UserDto> toDto(List<User> users) {
+        return users.stream().map(this::toDto).collect(Collectors.toList());
     }
-    public UserDto fromEntity(User user) {
-        if (user == null) {
-            return new UserDto();
-        }
+    public UserDto toDto(User user) {
         UserDto userDto = new UserDto();
+        if (user == null) {
+            return userDto;
+        }
         userDto.setId(user.getId());
         userDto.setAdmin(user.isAdmin());
         userDto.setActive(user.isActive());
@@ -37,7 +37,7 @@ public class UserDtoMapping {
 
     public User toEntity(UserDto userDto) {
         if (userDto == null) {
-            throw new IllegalArgumentException("UserDto is required.");
+            throw new RuntimeException("UserDto must not be null.");
         }
         User user = new User();
         user.setId(userDto.getId());

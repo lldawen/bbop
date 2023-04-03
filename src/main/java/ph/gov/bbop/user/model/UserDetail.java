@@ -14,13 +14,11 @@ import java.time.LocalDate;
 @Table(name = "BBOP_USER_DETAIL")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class UserDetail extends BaseModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_ID")
+    @Column(length = 75, name = "USER_ID")
     private String userId;
 
     @MapsId
@@ -37,7 +35,7 @@ public class UserDetail extends BaseModel {
     @Column(name = "MIDDLE_NAME", length = 50, nullable = false)
     private String middleName;
 
-    @Column(length = 3, nullable = false)
+    @Column(length = 1, nullable = false)
     private String gender;
 
     @Column(name = "BIRTH_DATE", nullable = false)
@@ -46,7 +44,7 @@ public class UserDetail extends BaseModel {
     @Column(length = 3, nullable = false)
     private Integer age;
 
-    @Column(name = "CIVIL_STATUS", length = 3, nullable = false)
+    @Column(name = "CIVIL_STATUS", length = 1, nullable = false)
     private String civilStatus;
 
     @Column(name = "CONTACT_NO_1", length = 20, nullable = false)
