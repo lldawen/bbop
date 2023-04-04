@@ -25,7 +25,6 @@ public class UserController extends CommonRestController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity<MessageDetail> findAll(@PathVariable String id) {
-        //This is a test commit from github
         return responseEntityWithDetails(userService.findById(id));
     }
 
