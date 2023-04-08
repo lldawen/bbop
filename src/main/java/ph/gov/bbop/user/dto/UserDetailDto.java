@@ -2,7 +2,9 @@ package ph.gov.bbop.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import ph.gov.bbop.common.dto.AuditableFieldsDto;
 
 import java.sql.Blob;
 import java.time.LocalDate;
@@ -10,7 +12,8 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDetailDto {
+@EqualsAndHashCode(callSuper = true)
+public class UserDetailDto extends AuditableFieldsDto {
 
     private String userId;
     private String firstName;

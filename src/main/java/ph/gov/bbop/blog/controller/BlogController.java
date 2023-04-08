@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.*;
 import ph.gov.bbop.blog.dto.BlogDto;
 import ph.gov.bbop.blog.service.BlogService;
 import ph.gov.bbop.common.controller.CommonRestController;
-import ph.gov.bbop.common.dto.MessageDetail;
+import ph.gov.bbop.common.dto.Message;
 
 @RestController
-@RequestMapping("/v1/blog")
+@RequestMapping("/api/v1/blog")
 public class BlogController extends CommonRestController {
 
     private final BlogService blogService;
@@ -18,27 +18,27 @@ public class BlogController extends CommonRestController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<MessageDetail> findAll() {
-        return responseEntityWithDetails(blogService.findAll());
+    public ResponseEntity<Message> findAll() {
+        return message(blogService.findAll());
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<MessageDetail> findById(@PathVariable Long id) {
-        return responseEntityWithDetails(blogService.findById(id));
+    public ResponseEntity<Message> findById(@PathVariable Long id) {
+        return message(blogService.findById(id));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<MessageDetail> create(@RequestBody BlogDto blogDto) {
-        return responseEntityWithDetails(blogService.create(blogDto));
+    public ResponseEntity<Message> create(@RequestBody BlogDto blogDto) {
+        return message(blogService.create(blogDto));
     }
 
     @PostMapping("/update/{id}")
-    public ResponseEntity<MessageDetail> create(@PathVariable Long id, @RequestBody BlogDto blogDto) {
-        return responseEntityWithDetails(blogService.update(id, blogDto));
+    public ResponseEntity<Message> create(@PathVariable Long id, @RequestBody BlogDto blogDto) {
+        return message(blogService.update(id, blogDto));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<MessageDetail> delete(@PathVariable Long id) {
-        return responseEntityWithDetails(blogService.delete(id));
+    public ResponseEntity<Message> delete(@PathVariable Long id) {
+        return message(blogService.delete(id));
     }
 }

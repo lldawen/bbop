@@ -1,5 +1,6 @@
 package ph.gov.bbop.user.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ph.gov.bbop.user.dto.UserDto;
 import ph.gov.bbop.user.model.User;
@@ -7,18 +8,13 @@ import ph.gov.bbop.user.repository.UserRepository;
 import ph.gov.bbop.user.util.UserMapper;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
-    public UserService(UserRepository userRepository, UserMapper userDtoMapping) {
-        this.userRepository = userRepository;
-        this.userMapper = userDtoMapping;
-    }
 
     public List<UserDto> findAll() {
         return userMapper.toDto(userRepository.findAll());
@@ -28,7 +24,7 @@ public class UserService {
         return userMapper.toDto(userRepository.findById(id).orElse(null));
     }
 
-    public UserDto create(UserDto userDto) {
+    public User create(UserDto userDto) {
         if (userRepository.existsById(userDto.getId())) {
             throw new RuntimeException("User already exists.");
         }
@@ -39,11 +35,12 @@ public class UserService {
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("User does not exist.");
         }
-        return save(userDto);
+        userDto.setId(id);
+        return userMapper.toDto(save(userDto));
     }
 
-    public UserDto save(UserDto userDto) {
-        return userMapper.toDto(userRepository.save(userMapper.toEntity(userDto)));
+    public User save(UserDto userDto) {
+        return userRepository.save(userMapper.toEntity(userDto));
     }
 
     public UserDto delete(String id) {

@@ -1,28 +1,28 @@
 package ph.gov.bbop.common.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
-import ph.gov.bbop.common.dto.KeyValue;
-import ph.gov.bbop.common.dto.MessageDetail;
-
-import java.util.Arrays;
+import ph.gov.bbop.common.dto.Message;
+import ph.gov.bbop.common.dto.MessageWithData;
 
 @RestController
 @Slf4j
 public class CommonRestController {
 
-    protected ResponseEntity<MessageDetail> responseEntityWithDetails(Object responseObject) {
+    protected ResponseEntity<Message> message(Object data) {
         log.info("CommonRestController | responseEntityWithDetails | Start");
-        MessageDetail messageDetail = new MessageDetail();
-        messageDetail.setSuccess(true);
-        messageDetail.setMessage("Success");
-        messageDetail.setData(responseObject);
-        log.info("CommonRestController | responseEntityWithDetails | messageDetail: " + messageDetail);
-        return ResponseEntity.ok(messageDetail);
+        MessageWithData messageWithData = new MessageWithData(data);
+        return ResponseEntity.ok(messageWithData);
+    }
+
+    protected ResponseEntity<Message> messageWithHeaders(Object data, HttpHeaders httpHeaders) {
+        MessageWithData messageWithData = new MessageWithData(data);
+        return ResponseEntity.ok().headers(httpHeaders).body(messageWithData);
     }
 
     @ExceptionHandler

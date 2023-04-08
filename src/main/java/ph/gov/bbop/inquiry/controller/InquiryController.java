@@ -3,14 +3,13 @@ package ph.gov.bbop.inquiry.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ph.gov.bbop.common.controller.CommonRestController;
-import ph.gov.bbop.common.dto.KeyValue;
-import ph.gov.bbop.common.dto.MessageDetail;
+import ph.gov.bbop.common.dto.Message;
 import ph.gov.bbop.inquiry.dto.InquiryDto;
 import ph.gov.bbop.inquiry.dto.InquiryFeedbackDto;
 import ph.gov.bbop.inquiry.service.InquiryService;
 
 @RestController
-@RequestMapping("/v1/inquiry")
+@RequestMapping("/api/v1/inquiry")
 public class InquiryController extends CommonRestController {
 
     private final InquiryService inquiryService;
@@ -20,32 +19,32 @@ public class InquiryController extends CommonRestController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<MessageDetail> findAll() {
-        return responseEntityWithDetails(inquiryService.findAll());
+    public ResponseEntity<Message> findAll() {
+        return message(inquiryService.findAll());
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<MessageDetail> findById(@PathVariable  Long id) {
-        return responseEntityWithDetails(inquiryService.findById(id));
+    public ResponseEntity<Message> findById(@PathVariable  Long id) {
+        return message(inquiryService.findById(id));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<MessageDetail> create(@RequestBody InquiryDto inquiryDto) {
-        return responseEntityWithDetails(inquiryService.create(inquiryDto));
+    public ResponseEntity<Message> create(@RequestBody InquiryDto inquiryDto) {
+        return message(inquiryService.create(inquiryDto));
     }
 
     @PostMapping("/get/{id}/feedback/create")
-    public ResponseEntity<MessageDetail> createFeedback(@PathVariable Long id, @RequestBody InquiryFeedbackDto inquiryFeedbackDto) {
-        return responseEntityWithDetails((inquiryService.createFeedback(id, inquiryFeedbackDto)));
+    public ResponseEntity<Message> createFeedback(@PathVariable Long id, @RequestBody InquiryFeedbackDto inquiryFeedbackDto) {
+        return message((inquiryService.createFeedback(id, inquiryFeedbackDto)));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<MessageDetail> update(@PathVariable Long id, @RequestBody InquiryDto inquiryDto) {
-        return responseEntityWithDetails(inquiryService.update(id, inquiryDto));
+    public ResponseEntity<Message> update(@PathVariable Long id, @RequestBody InquiryDto inquiryDto) {
+        return message(inquiryService.update(id, inquiryDto));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<MessageDetail> delete(@PathVariable Long id) {
-        return responseEntityWithDetails(inquiryService.delete(id));
+    public ResponseEntity<Message> delete(@PathVariable Long id) {
+        return message(inquiryService.delete(id));
     }
 }

@@ -38,6 +38,7 @@ public class BlogService {
         if (!blogRepository.existsById(id)) {
             throw new RuntimeException("Blog does not exist.");
         }
+        blogDto.setId(id);
         return save(blogDto);
     }
 

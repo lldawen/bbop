@@ -46,6 +46,7 @@ public class InquiryService {
         if (!inquiryRepository.existsById(id)) {
             throw new RuntimeException("Inquiry does not exist.");
         }
+        inquiryDto.setId(id);
         return save(inquiryDto);
     }
 

@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class BlogMapper {
 
     public List<BlogDto> toDto(List<Blog> blogs) {
+        System.out.println(blogs);
         return blogs.stream().map(this::toDto).collect(Collectors.toList());
     }
 
@@ -37,8 +38,6 @@ public class BlogMapper {
         blog.setAuthor(blogDto.getAuthor());
         blog.setTitle(blogDto.getTitle());
         blog.setBody(ClobConverter.fromString(blogDto.getBody()));
-        blog.setCreatedBy("dawen"); //TODO
-        blog.setCreatedDate(LocalDateTime.now()); //TODO
         return blog;
     }
 }

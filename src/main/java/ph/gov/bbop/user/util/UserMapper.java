@@ -1,13 +1,15 @@
 package ph.gov.bbop.user.util;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import ph.gov.bbop.common.util.AuditableFieldsMapper;
 import ph.gov.bbop.user.dto.UserDetailDto;
 import ph.gov.bbop.user.dto.UserDto;
+import ph.gov.bbop.user.model.Role;
 import ph.gov.bbop.user.model.User;
 import ph.gov.bbop.user.model.UserDetail;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +17,13 @@ import java.util.stream.Collectors;
 @Component
 public class UserMapper {
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AuditableFieldsMapper auditableFieldsMapper;
+
+    public UserMapper(BCryptPasswordEncoder bCryptPasswordEncoder, AuditableFieldsMapper auditableFieldsMapper) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.auditableFieldsMapper = auditableFieldsMapper;
+    }
     public List<UserDto> toDto(List<User> users) {
         return users.stream().map(this::toDto).collect(Collectors.toList());
     }
@@ -24,13 +33,17 @@ public class UserMapper {
             return userDto;
         }
         userDto.setId(user.getId());
-        userDto.setAdmin(user.isAdmin());
+        userDto.setRole(user.getRole().name());
         userDto.setActive(user.isActive());
+        auditableFieldsMapper.toDto(userDto, user);
+
         UserDetailDto userDetailDto = new UserDetailDto();
         userDetailDto.setUserId(user.getId());
         userDetailDto.setFirstName(user.getUserDetail().getFirstName());
         userDetailDto.setLastName(user.getUserDetail().getLastName());
         userDetailDto.setMiddleName(user.getUserDetail().getMiddleName());
+        auditableFieldsMapper.toDto(userDto, user);
+
         userDto.setUserDetail(userDetailDto);
         return userDto;
     }
@@ -41,11 +54,9 @@ public class UserMapper {
         }
         User user = new User();
         user.setId(userDto.getId());
-        user.setPassword(userDto.getPassword());
+        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+        user.setRole(Role.of(userDto.getRole()));
         user.setActive(true);
-        user.setAdmin(true);
-        user.setCreatedBy("tester");
-        user.setCreatedDate(LocalDateTime.now());
 
         UserDetailDto userDetailDto = userDto.getUserDetail();
         UserDetail userDetail = new UserDetail();
@@ -66,8 +77,6 @@ public class UserMapper {
         userDetail.setCivilStatus(userDetailDto.getCivilStatus());
         userDetail.setActive(true);
         userDetail.setSignature(userDetailDto.getSignature());
-        userDetail.setCreatedBy("tester");
-        userDetail.setCreatedDate(LocalDateTime.now());
 
         user.setUserDetail(userDetail);
 
