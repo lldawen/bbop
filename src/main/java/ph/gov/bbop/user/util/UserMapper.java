@@ -1,16 +1,16 @@
 package ph.gov.bbop.user.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import ph.gov.bbop.common.util.AuditableFieldsMapper;
+import ph.gov.bbop.common.util.DateTimeUtil;
 import ph.gov.bbop.user.dto.UserDetailDto;
 import ph.gov.bbop.user.dto.UserDto;
 import ph.gov.bbop.user.model.Role;
 import ph.gov.bbop.user.model.User;
 import ph.gov.bbop.user.model.UserDetail;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,28 +58,33 @@ public class UserMapper {
         user.setRole(Role.of(userDto.getRole()));
         user.setActive(true);
 
-        UserDetailDto userDetailDto = userDto.getUserDetail();
-        UserDetail userDetail = new UserDetail();
-        userDetail.setUserId(userDto.getId());
-        userDetail.setUser(user);
-        userDetail.setFirstName(userDetailDto.getFirstName());
-        userDetail.setLastName(userDetailDto.getLastName());
-        userDetail.setMiddleName(userDetailDto.getMiddleName());
-        userDetail.setGender(userDetailDto.getGender());
-        userDetail.setBirthDate(LocalDate.parse(userDetailDto.getBirthDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        userDetail.setAge(userDetailDto.getAge());
-        userDetail.setContactNo1(userDetailDto.getContactNo1());
-        userDetail.setContactNo2(userDetailDto.getContactNo2());
-        userDetail.setEmail(userDetailDto.getEmail());
-        userDetail.setHouseBlkNo(userDetailDto.getHouseBlkNo());
-        userDetail.setDistrict(userDetailDto.getDistrict());
-        userDetail.setStreet(userDetailDto.getStreet());
-        userDetail.setCivilStatus(userDetailDto.getCivilStatus());
-        userDetail.setActive(true);
-        userDetail.setSignature(userDetailDto.getSignature());
+        if (userDetailsExist(userDto)) {
+            UserDetailDto userDetailDto = userDto.getUserDetail();
+            UserDetail userDetail = new UserDetail();
+            userDetail.setUserId(userDto.getId());
+            userDetail.setUser(user);
+            userDetail.setFirstName(userDetailDto.getFirstName());
+            userDetail.setLastName(userDetailDto.getLastName());
+            userDetail.setMiddleName(userDetailDto.getMiddleName());
+            userDetail.setGender(userDetailDto.getGender());
+            userDetail.setBirthDate(DateTimeUtil.parse(userDetailDto.getBirthDate()));
+            userDetail.setAge(userDetailDto.getAge());
+            userDetail.setContactNo1(userDetailDto.getContactNo1());
+            userDetail.setContactNo2(userDetailDto.getContactNo2());
+            userDetail.setEmail(userDetailDto.getEmail());
+            userDetail.setHouseBlkNo(userDetailDto.getHouseBlkNo());
+            userDetail.setDistrict(userDetailDto.getDistrict());
+            userDetail.setStreet(userDetailDto.getStreet());
+            userDetail.setCivilStatus(userDetailDto.getCivilStatus());
+            userDetail.setActive(true);
+            userDetail.setSignature(userDetailDto.getSignature());
 
-        user.setUserDetail(userDetail);
-
+            user.setUserDetail(userDetail);
+        }
         return user;
+    }
+
+    private boolean userDetailsExist(UserDto userDto) {
+        return userDto.getUserDetail() != null && StringUtils.isNotEmpty(userDto.getUserDetail().getUserId());
     }
 }

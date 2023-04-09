@@ -6,7 +6,6 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
@@ -35,11 +34,11 @@ public class BaseModel implements Serializable {
     private String createdBy;
 
     @LastModifiedDate
-    @Column(name = "modified_date", nullable = true, updatable = true)
+    @Column(name = "modified_date")
     private LocalDateTime modifiedDate;
 
     @LastModifiedBy
-    @Column(name = "modified_by", nullable = true, updatable = true)
+    @Column(name = "modified_by")
     private String modifiedBy;
 
     @Version
