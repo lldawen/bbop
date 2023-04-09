@@ -11,8 +11,8 @@
 	<groupId>ph.gov.bagongpook</groupId>
 	<artifactId>bbop</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>bbop</name>
-	<description>bbop</description>
+	<name>bbop-service</name>
+	<description>bbop-service</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
