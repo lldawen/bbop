@@ -22,7 +22,7 @@ public class UserDetail extends BaseModel {
 
     @MapsId
     @JoinColumn(name = "userId")
-    @OneToOne(optional = false)
+    @OneToOne(optional = true, fetch = FetchType.LAZY)
     private User user;
 
     @Column(name = "FIRST_NAME", length = 50, nullable = false)

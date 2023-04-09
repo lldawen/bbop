@@ -33,4 +33,4 @@ app:
   authentication:
     key: 743777217A25432A462D4A614E645267556B58703273357638782F413F442847
   base:
-    dir: F:/Dawen/Brgy Bagongpook Online Portal/bbop
+    dir: F:/Dawen/Brgy Bagongpook Online Portal/bbop-service
