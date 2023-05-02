@@ -1,6 +1,6 @@
 package ph.gov.bbop.user.util;
 
-import org.apache.commons.lang3.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import ph.gov.bbop.common.util.AuditableFieldsMapper;
@@ -11,9 +11,12 @@ import ph.gov.bbop.user.model.Role;
 import ph.gov.bbop.user.model.User;
 import ph.gov.bbop.user.model.UserDetail;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class UserMapper {
 
@@ -39,9 +42,22 @@ public class UserMapper {
 
         UserDetailDto userDetailDto = new UserDetailDto();
         userDetailDto.setUserId(user.getId());
-        userDetailDto.setFirstName(user.getUserDetail().getFirstName());
-        userDetailDto.setLastName(user.getUserDetail().getLastName());
-        userDetailDto.setMiddleName(user.getUserDetail().getMiddleName());
+        log.debug("user.getUserDetail(): {}", user.getUserDetail());
+        if (user.getUserDetail() != null) {
+            userDetailDto.setFirstName(user.getUserDetail().getFirstName());
+            userDetailDto.setLastName(user.getUserDetail().getLastName());
+            userDetailDto.setMiddleName(user.getUserDetail().getMiddleName());
+            userDetailDto.setGender(user.getUserDetail().getGender());
+            userDetailDto.setBirthDate(DateTimeUtil.format(user.getUserDetail().getBirthDate()));
+            userDetailDto.setCivilStatus(user.getUserDetail().getCivilStatus());
+            userDetailDto.setContactNo1(user.getUserDetail().getContactNo1());
+            userDetailDto.setContactNo2(user.getUserDetail().getContactNo2());
+            userDetailDto.setEmail(user.getUserDetail().getEmail());
+            userDetailDto.setHouseBlkNo(user.getUserDetail().getHouseBlkNo());
+            userDetailDto.setDistrict(user.getUserDetail().getDistrict());
+            userDetailDto.setStreet(user.getUserDetail().getStreet());
+            userDetailDto.setSignature(user.getUserDetail().getSignature());
+        }
         auditableFieldsMapper.toDto(userDto, user);
 
         userDto.setUserDetail(userDetailDto);
@@ -49,18 +65,23 @@ public class UserMapper {
     }
 
     public User toEntity(UserDto userDto) {
-        if (userDto == null) {
-            throw new RuntimeException("UserDto must not be null.");
-        }
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-        user.setRole(Role.of(userDto.getRole()));
-        user.setActive(true);
+        return toEntity(userDto, null);
+    }
 
-        if (userDetailsExist(userDto)) {
+    public User toEntity(UserDto userDto, User user) {
+        UserDetail userDetail = null;
+        if (user == null) {
+            user = new User();
+            user.setId(userDto.getId());
+            user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+            user.setRole(Role.of(userDto.getRole()));
+            user.setActive(true);
+            userDetail = new UserDetail();
+        } else {
+            userDetail = user.getUserDetail();
+        }
+        if (userDto.getUserDetail() != null) {
             UserDetailDto userDetailDto = userDto.getUserDetail();
-            UserDetail userDetail = new UserDetail();
             userDetail.setUserId(userDto.getId());
             userDetail.setUser(user);
             userDetail.setFirstName(userDetailDto.getFirstName());
@@ -68,7 +89,7 @@ public class UserMapper {
             userDetail.setMiddleName(userDetailDto.getMiddleName());
             userDetail.setGender(userDetailDto.getGender());
             userDetail.setBirthDate(DateTimeUtil.parse(userDetailDto.getBirthDate()));
-            userDetail.setAge(userDetailDto.getAge());
+            userDetail.setAge(calculateAge(userDetail.getBirthDate()));
             userDetail.setContactNo1(userDetailDto.getContactNo1());
             userDetail.setContactNo2(userDetailDto.getContactNo2());
             userDetail.setEmail(userDetailDto.getEmail());
@@ -76,15 +97,12 @@ public class UserMapper {
             userDetail.setDistrict(userDetailDto.getDistrict());
             userDetail.setStreet(userDetailDto.getStreet());
             userDetail.setCivilStatus(userDetailDto.getCivilStatus());
-            userDetail.setActive(true);
-            userDetail.setSignature(userDetailDto.getSignature());
-
             user.setUserDetail(userDetail);
         }
         return user;
     }
 
-    private boolean userDetailsExist(UserDto userDto) {
-        return userDto.getUserDetail() != null && StringUtils.isNotEmpty(userDto.getUserDetail().getUserId());
+    private int calculateAge(LocalDate birthDate) {
+        return Period.between(birthDate, LocalDate.now()).getYears();
     }
 }

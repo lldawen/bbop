@@ -14,8 +14,8 @@ public class UserDto extends AuditableFieldsDto {
 
     private String id;
     private String password;
-    private String role;
-    private boolean isActive;
+    private String role = "USER";
+    private boolean isActive = true;
     private UserDetailDto userDetail;
 
 }

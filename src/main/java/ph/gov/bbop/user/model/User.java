@@ -33,7 +33,7 @@ public class User extends BaseModel implements UserDetails {
     @Column(name = "IS_ACTIVE", nullable = false)
     private boolean isActive;
 
-    @OneToOne(mappedBy = "user", optional = true,fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn(name = "USER_DETAIL")
     private UserDetail userDetail;
 

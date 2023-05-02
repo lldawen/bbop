@@ -1,6 +1,8 @@
 package ph.gov.bbop.user.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ph.gov.bbop.user.dto.UserDto;
 import ph.gov.bbop.user.model.User;
@@ -10,6 +12,7 @@ import ph.gov.bbop.user.util.UserMapper;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserService {
 
@@ -24,23 +27,18 @@ public class UserService {
         return userMapper.toDto(userRepository.findById(id).orElse(null));
     }
 
+    @Transactional
     public User create(UserDto userDto) {
         if (userRepository.existsById(userDto.getId())) {
             throw new RuntimeException("User already exists.");
         }
-        return save(userDto);
-    }
-
-    public UserDto update(String id, UserDto userDto) {
-        if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User does not exist.");
-        }
-        userDto.setId(id);
-        return userMapper.toDto(save(userDto));
-    }
-
-    public User save(UserDto userDto) {
         return userRepository.save(userMapper.toEntity(userDto));
+    }
+
+    @Transactional
+    public UserDto update(String id, UserDto userDto) {
+        User user = userRepository.findById(id).orElseThrow();
+        return userMapper.toDto(userRepository.save(userMapper.toEntity(userDto, user)));
     }
 
     public UserDto delete(String id) {

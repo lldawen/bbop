@@ -1,21 +1,42 @@
 package ph.gov.bbop.common.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 
 public final class DateTimeUtil {
 
-    private static final DateTimeFormatter DEFAULT_DATE_PARSER_PATTERN = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private static final DateTimeFormatter DEFAULT_DATETIME_FORMATTER_PATTERN = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
-
+    private static final DateTimeFormatter DEFAULT_DATE_PATTERN = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter DEFAULT_DATETIME_PATTERN = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     private DateTimeUtil() {}
 
-    public static LocalDate parse(String dateTimeString) {
-        return LocalDate.parse(dateTimeString, DEFAULT_DATE_PARSER_PATTERN);
+    public static LocalDate parse(String dateString) {
+        if (StringUtils.isNotEmpty(dateString)) {
+            return LocalDate.parse(dateString, DEFAULT_DATE_PATTERN);
+        }
+        return null;
     }
 
     public static String format(LocalDate localDate) {
-        return DEFAULT_DATETIME_FORMATTER_PATTERN.format(localDate);
+        if (localDate != null) {
+            return localDate.format(DEFAULT_DATE_PATTERN);
+        }
+        return StringUtils.EMPTY;
+    }
+
+    public static LocalDateTime parseWithTime(String dateTimeString) {
+        if (StringUtils.isNotEmpty(dateTimeString)) {
+            return LocalDateTime.parse(dateTimeString, DEFAULT_DATETIME_PATTERN);
+        }
+        return null;
+    }
+
+    public static String formatWithTime(LocalDateTime localDateTime) {
+        if (localDateTime != null) {
+            return localDateTime.format(DEFAULT_DATETIME_PATTERN);
+        }
+        return StringUtils.EMPTY;
     }
 }

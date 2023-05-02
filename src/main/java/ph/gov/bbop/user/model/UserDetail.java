@@ -21,8 +21,8 @@ public class UserDetail extends BaseModel {
     private String userId;
 
     @MapsId
-    @JoinColumn(name = "userId")
-    @OneToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
     @Column(name = "FIRST_NAME", length = 50, nullable = false)

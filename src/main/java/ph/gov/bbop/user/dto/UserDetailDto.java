@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 public class UserDetailDto extends AuditableFieldsDto {
 
+    //personal information
     private String userId;
     private String firstName;
     private String lastName;
@@ -26,9 +27,11 @@ public class UserDetailDto extends AuditableFieldsDto {
     private String contactNo1;
     private String contactNo2;
     private String email;
+    private Blob signature;
+
+    //address
     private String houseBlkNo;
     private String district;
     private String street;
-    private boolean isActive;
-    private Blob signature;
+
 }
