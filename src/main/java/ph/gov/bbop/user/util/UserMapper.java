@@ -7,6 +7,7 @@ import ph.gov.bbop.common.util.AuditableFieldsMapper;
 import ph.gov.bbop.common.util.DateTimeUtil;
 import ph.gov.bbop.user.dto.UserDetailDto;
 import ph.gov.bbop.user.dto.UserDto;
+import ph.gov.bbop.user.dto.UserSearchResultDto;
 import ph.gov.bbop.user.model.Role;
 import ph.gov.bbop.user.model.User;
 import ph.gov.bbop.user.model.UserDetail;
@@ -14,6 +15,7 @@ import ph.gov.bbop.user.model.UserDetail;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -30,6 +32,7 @@ public class UserMapper {
     public List<UserDto> toDto(List<User> users) {
         return users.stream().map(this::toDto).collect(Collectors.toList());
     }
+
     public UserDto toDto(User user) {
         UserDto userDto = new UserDto();
         if (user == null) {
@@ -62,6 +65,27 @@ public class UserMapper {
 
         userDto.setUserDetail(userDetailDto);
         return userDto;
+    }
+
+    public List<UserSearchResultDto> userSearchResultDto(List<User> users) {
+        return users.stream().map(this::userSearchResultDto).collect(Collectors.toList());
+    }
+
+    public UserSearchResultDto userSearchResultDto(User user) {
+        UserSearchResultDto userSearchResultDto = new UserSearchResultDto();
+        if (user == null) {
+            return userSearchResultDto;
+        }
+        userSearchResultDto.setId(user.getId());
+        userSearchResultDto.setRole(user.getRole().name());
+        userSearchResultDto.setIsActive(user.isActive() ? "Yes" : "No");
+        if (user.getUserDetail() != null) {
+            userSearchResultDto.setFullName(new StringJoiner(" ")
+                .add(user.getUserDetail().getFirstName())
+                .add(user.getUserDetail().getMiddleName().substring(0, 1))
+                .add(user.getUserDetail().getLastName()).toString());
+        }
+        return userSearchResultDto;
     }
 
     public User toEntity(UserDto userDto) {

@@ -7,6 +7,8 @@ import ph.gov.bbop.common.dto.Message;
 import ph.gov.bbop.user.dto.UserDto;
 import ph.gov.bbop.user.service.UserService;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController extends CommonRestController {
@@ -18,8 +20,14 @@ public class UserController extends CommonRestController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Message> findAll() {
-        return message(userService.findAll());
+    public ResponseEntity<Message> findAll(Integer size, Integer limit) {
+        if (size == null) {
+            size = 0;
+        }
+        if (limit == null) {
+            limit = 10;
+        }
+        return message(userService.findAll(size, limit), Map.of("total", userService.getCount()));
     }
 
 

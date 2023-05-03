@@ -3,8 +3,11 @@ package ph.gov.bbop.user.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ph.gov.bbop.user.dto.UserDto;
+import ph.gov.bbop.user.dto.UserSearchResultDto;
 import ph.gov.bbop.user.model.User;
 import ph.gov.bbop.user.repository.UserRepository;
 import ph.gov.bbop.user.util.UserMapper;
@@ -23,6 +26,14 @@ public class UserService {
         return userMapper.toDto(userRepository.findAll());
     }
 
+    public List<UserSearchResultDto> findAll(int size, int limit) {
+        Page<User> pagedUsers = userRepository.findAll(PageRequest.of(size, limit));
+        return userMapper.userSearchResultDto(pagedUsers.getContent());
+    }
+
+    public long getCount() {
+        return userRepository.count();
+    }
     public UserDto findById(String id) {
         return userMapper.toDto(userRepository.findById(id).orElse(null));
     }

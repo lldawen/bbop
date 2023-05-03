@@ -10,18 +10,26 @@ import org.springframework.web.bind.annotation.RestController;
 import ph.gov.bbop.common.dto.Message;
 import ph.gov.bbop.common.dto.MessageWithData;
 
+import java.util.Map;
+
 @RestController
 @Slf4j
 public class CommonRestController {
 
     protected ResponseEntity<Message> message(Object data) {
         log.info("CommonRestController | responseEntityWithDetails | Start");
-        MessageWithData messageWithData = new MessageWithData(data);
+        MessageWithData messageWithData = new MessageWithData(data, null);
+        return ResponseEntity.ok(messageWithData);
+    }
+
+    protected ResponseEntity<Message> message(Object data, Map<String, Object> others) {
+        log.info("CommonRestController | responseEntityWithDetails | Start");
+        MessageWithData messageWithData = new MessageWithData(data, others);
         return ResponseEntity.ok(messageWithData);
     }
 
     protected ResponseEntity<Message> messageWithHeaders(Object data, HttpHeaders httpHeaders) {
-        MessageWithData messageWithData = new MessageWithData(data);
+        MessageWithData messageWithData = new MessageWithData(data, null);
         return ResponseEntity.ok().headers(httpHeaders).body(messageWithData);
     }
 
