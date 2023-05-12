@@ -13,6 +13,14 @@ public enum ApplicationType {
         this.description = description;
     }
 
+    public static ApplicationType of(String code) {
+        return switch (code) {
+            case "R" -> RESIDENCY;
+            case "I" -> INDIGENCY;
+            case "C" -> CLEARANCE;
+            default -> null;
+        };
+    }
     public String getCode() {
         return this.code;
     }

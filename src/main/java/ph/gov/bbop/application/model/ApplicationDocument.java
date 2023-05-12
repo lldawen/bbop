@@ -20,7 +20,7 @@ public class ApplicationDocument extends BaseModel {
     @SequenceGenerator(name = "BBOP_APPL_REQUIRED_DOC_SEQ", sequenceName = "BBOP_APPL_REQUIRED_DOC_SEQ", allocationSize = 1)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "APPLICATION_ID")
     private Application application;
 
@@ -29,5 +29,8 @@ public class ApplicationDocument extends BaseModel {
 
     @Column(name = "DOCUMENT_FILENAME", nullable = false)
     private String documentName;
+
+    @Column(name = "DOCUMENT_PATH", nullable = false)
+    private String documentPath;
 
 }

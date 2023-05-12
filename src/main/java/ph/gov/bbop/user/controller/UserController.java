@@ -32,7 +32,7 @@ public class UserController extends CommonRestController {
 
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Message> findAll(@PathVariable String id) {
+    public ResponseEntity<Message> findById(@PathVariable String id) {
         return message(userService.findById(id));
     }
 

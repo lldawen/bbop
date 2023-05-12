@@ -27,6 +27,11 @@ public class CodeController extends CommonRestController {
         return message((codeService.findById(id)));
     }
 
+    @GetMapping("/category/{category}")
+    public ResponseEntity<Message> findByCategory(@PathVariable String category) {
+        return message((codeService.findByCategory(category)));
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Message> create(@RequestBody CodeDto codeDto) {
         return message(codeService.create(codeDto));

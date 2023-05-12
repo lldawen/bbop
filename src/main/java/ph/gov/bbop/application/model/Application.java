@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import ph.gov.bbop.code.model.Code;
 import ph.gov.bbop.common.model.BaseModel;
 import ph.gov.bbop.user.model.User;
 
@@ -26,15 +27,17 @@ public class Application extends BaseModel {
     @SequenceGenerator(name = "BBOP_APPLICATION_SEQ", sequenceName = "BBOP_APPLICATION_SEQ", allocationSize = 1)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "USER_ID")
     private User applicant;
 
-    @Column(name = "APPLICATION_TYPE", nullable = false)
-    private ApplicationType applicationType;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "APPLICATION_TYPE", nullable = false)
+    private Code appType;
 
-    @Column(name = "PURPOSE", length = 3, nullable = false)
-    private String purpose;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "PURPOSE", nullable = false)
+    private Code purpose;
 
     @Column(name = "IS_FEE_REQUIRED", nullable = false)
     private boolean isFeeRequired;
@@ -48,11 +51,13 @@ public class Application extends BaseModel {
     @Column(name = "PAYMENT_DATE")
     private LocalDateTime paymentDate;
 
-    @Column(name = "PAYMENT_MODE", length = 3, nullable = false)
-    private String paymentMode;
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "PAYMENT_MODE", nullable = true)
+    private Code paymentMode;
 
-    @Column(name = "STATUS", length = 3, nullable = false)
-    private String status;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "STATUS", nullable = false)
+    private Code status;
 
     @Column(name = "IS_NOTIFY_VIA_EMAIL", nullable = false)
     private boolean isNotifyViaEmail;
@@ -63,10 +68,10 @@ public class Application extends BaseModel {
     @Column(name = "CERTIFICATE_ISSUE_DATE")
     private LocalDateTime certificateIssueDate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "application", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "application", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ApplicationDocument> applicationDocumentList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "application", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "application", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Certificate> certificateList = new ArrayList<>();
 
     public void addApplicationDocument(ApplicationDocument applicationDocument) {

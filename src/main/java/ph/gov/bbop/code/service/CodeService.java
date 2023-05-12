@@ -27,6 +27,10 @@ public class CodeService {
         return codeMapper.toDto(codeRepository.findById(id).orElse(null));
     }
 
+    public List<CodeDto> findByCategory(String category) {
+        return codeMapper.toDto(codeRepository.findByCategory(category));
+    }
+
     public CodeDto create(CodeDto codeDto) {
         if (codeDto.getId() != null) {
             throw new RuntimeException("Code already exists.");
