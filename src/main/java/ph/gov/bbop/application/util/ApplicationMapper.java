@@ -6,6 +6,7 @@ import ph.gov.bbop.application.dto.ApplicationDto;
 import ph.gov.bbop.application.dto.CertificateDto;
 import ph.gov.bbop.application.model.Application;
 import ph.gov.bbop.application.model.Certificate;
+import ph.gov.bbop.code.model.Code;
 import ph.gov.bbop.code.util.CodeUtil;
 import ph.gov.bbop.common.CommonConstants;
 import ph.gov.bbop.common.util.DateTimeUtil;
@@ -40,20 +41,27 @@ public class ApplicationMapper {
         }
         applicationDto.setId(application.getId());
         applicationDto.setApplicantId(application.getApplicant().getId());
-        applicationDto.setApplType(application.getAppType().getCode());
-        applicationDto.setApplTypeDescr(application.getAppType().getCodeDescr());
-        applicationDto.setPurpose(application.getPurpose().getCode());
-        applicationDto.setPurposeDescr(application.getPurpose().getCodeDescr());
+
+        Code applTypeCode = codeUtil.getCode(CommonConstants.CC_APPL_TYPE, application.getAppType());
+        applicationDto.setApplType(applTypeCode.getCode());
+        applicationDto.setApplTypeDescr(applTypeCode.getCodeDescr());
+
+        Code purposeCode = codeUtil.getCode(CommonConstants.CC_PURPOSE, application.getPurpose());
+        applicationDto.setPurpose(purposeCode.getCode());
+        applicationDto.setPurposeDescr(purposeCode.getCodeDescr());
+
         applicationDto.setFeeRequired(application.isFeeRequired());
         applicationDto.setFeeAmount(application.getFeeAmount());
         applicationDto.setFeePaid(application.getFeePaid());
         applicationDto.setPaymentDate(DateTimeUtil.formatWithTime(application.getPaymentDate()));
         if (application.getPaymentMode() != null) {
-            applicationDto.setPaymentMode(application.getPaymentMode().getCode());
-            applicationDto.setPaymentModeDescr(application.getPaymentMode().getCodeDescr());
+            Code paymentModeCode = codeUtil.getCode(CommonConstants.CC_PAYMENT_MODE, application.getPaymentMode());
+            applicationDto.setPaymentMode(paymentModeCode.getCode());
+            applicationDto.setPaymentModeDescr(paymentModeCode.getCodeDescr());
         }
-        applicationDto.setStatus(application.getStatus().getCode());
-        applicationDto.setStatusDescr(application.getStatus().getCodeDescr());
+        Code statusCode = codeUtil.getCode(CommonConstants.CC_APPL_STATUS, application.getStatus());
+        applicationDto.setStatus(statusCode.getCode());
+        applicationDto.setStatusDescr(statusCode.getCodeDescr());
         applicationDto.setNotifyViaEmail(application.isNotifyViaEmail());
         applicationDto.setCertificateIssued(application.isCerfificateIssued());
         applicationDto.setCertificateIssueDate(DateTimeUtil.formatWithTime(application.getCertificateIssueDate()));
@@ -86,14 +94,17 @@ public class ApplicationMapper {
             application = new Application();
         }
         application.setApplicant(userRepository.findById(applicationDto.getApplicantId()).orElseThrow());
-        application.setAppType(codeUtil.getCode(CommonConstants.CC_APPL_TYPE, applicationDto.getApplType()));
-        application.setPurpose(codeUtil.getCode(CommonConstants.CC_PURPOSE, applicationDto.getPurpose()));
+        application.setAppType(codeUtil.getCode(CommonConstants.CC_APPL_TYPE, applicationDto.getApplType()).getCode());
+        application.setPurpose(codeUtil.getCode(CommonConstants.CC_PURPOSE, applicationDto.getPurpose()).getCode());
         application.setFeeRequired(applicationDto.isFeeRequired());
         application.setFeeAmount(applicationDto.getFeeAmount());
         application.setFeePaid(applicationDto.getFeePaid());
         application.setPaymentDate(DateTimeUtil.parseWithTime(applicationDto.getPaymentDate()));
-        application.setPaymentMode(codeUtil.getCode(CommonConstants.CC_PAYMENT_MODE, applicationDto.getPaymentMode()));
-        application.setStatus(codeUtil.getCode(CommonConstants.CC_STATUS, applicationDto.getStatus()));
+        Code paymentModeCode = codeUtil.getCode(CommonConstants.CC_PAYMENT_MODE, applicationDto.getPaymentMode());
+        if (paymentModeCode != null) {
+            application.setPaymentMode(paymentModeCode.getCode());
+        }
+        application.setStatus(codeUtil.getCode(CommonConstants.CC_APPL_STATUS, applicationDto.getStatus()).getCode());
         application.setNotifyViaEmail(applicationDto.isNotifyViaEmail());
         application.setCerfificateIssued(applicationDto.isCertificateIssued());
         application.setCertificateIssueDate(DateTimeUtil.parseWithTime(applicationDto.getCertificateIssueDate()));

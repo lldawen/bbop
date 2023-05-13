@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import ph.gov.bbop.code.model.Code;
 import ph.gov.bbop.common.model.BaseModel;
 import ph.gov.bbop.user.model.User;
 
@@ -22,22 +21,24 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Application extends BaseModel {
 
+    public Application(Long id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BBOP_APPLICATION_SEQ")
-    @SequenceGenerator(name = "BBOP_APPLICATION_SEQ", sequenceName = "BBOP_APPLICATION_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "BBOP_APPLICATION_SEQ", sequenceName = "BBOP_APPLICATION_SEQ", allocationSize = 1000)
     private Long id;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "USER_ID")
     private User applicant;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "APPLICATION_TYPE", nullable = false)
-    private Code appType;
+    @Column(name = "APPL_TYPE", length = 10, nullable = false)
+    private String appType;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "PURPOSE", nullable = false)
-    private Code purpose;
+    @Column(name = "PURPOSE", length = 10, nullable = false)
+    private String purpose;
 
     @Column(name = "IS_FEE_REQUIRED", nullable = false)
     private boolean isFeeRequired;
@@ -51,13 +52,11 @@ public class Application extends BaseModel {
     @Column(name = "PAYMENT_DATE")
     private LocalDateTime paymentDate;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "PAYMENT_MODE", nullable = true)
-    private Code paymentMode;
+    @Column(name = "PAYMENT_MODE", length = 10)
+    private String paymentMode;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "STATUS", nullable = false)
-    private Code status;
+    @Column(name = "APPL_STATUS", length = 10, nullable = false)
+    private String status;
 
     @Column(name = "IS_NOTIFY_VIA_EMAIL", nullable = false)
     private boolean isNotifyViaEmail;

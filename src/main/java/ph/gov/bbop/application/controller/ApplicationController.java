@@ -22,14 +22,14 @@ public class ApplicationController extends CommonRestController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Message> findAll(Integer size, Integer limit) {
+    public ResponseEntity<Message> findAll(String userId, Integer size, Integer limit) {
         if (size == null) {
             size = 0;
         }
         if (limit == null) {
             limit = 0;
         }
-        return message(applicationService.findAll(size, limit), Map.of("total", applicationService.getCount()));
+        return message(applicationService.findAll(userId, size, limit), Map.of("total", applicationService.getCount(userId)));
     }
 
     @GetMapping("/get/{id}")
@@ -47,6 +47,12 @@ public class ApplicationController extends CommonRestController {
     public ResponseEntity<Message> update(@PathVariable Long id, @RequestBody ApplicationDto applicationDto) {
         log.debug("ApplicationController | update | id: {} applicationDto: {}", id ,applicationDto);
         return message(applicationService.update(id, applicationDto));
+    }
+
+    @PutMapping("/submit/{id}")
+    public ResponseEntity<Message> submit(@PathVariable Long id) {
+        log.debug("ApplicationController | submit | id: {}", id);
+        return message(applicationService.submit(id));
     }
 
     @DeleteMapping("/delete/{id}")

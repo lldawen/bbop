@@ -28,14 +28,14 @@ public class ApplicationDocumentController extends CommonRestController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Message> findAll(Integer size, Integer limit) {
+    public ResponseEntity<Message> findAll(Long applId, Integer size, Integer limit) {
         if (size == null) {
             size = 0;
         }
         if (limit == null) {
             limit = 0;
         }
-        return message(applicationDocumentService.findAll(size, limit), Map.of("total", applicationDocumentService.count()));
+        return message(applicationDocumentService.findAll(applId, size, limit), Map.of("total", applicationDocumentService.countByApplication(applId)));
     }
 
     @GetMapping("/get/{id}")

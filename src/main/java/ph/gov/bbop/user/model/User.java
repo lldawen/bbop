@@ -19,6 +19,9 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseModel implements UserDetails {
 
+    public User(String id) {
+        this.id = id;
+    }
     @Id
     @Column(length = 75, unique = true)
     private String id;

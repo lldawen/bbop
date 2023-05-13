@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import ph.gov.bbop.application.dto.ApplicationDocumentDto;
 import ph.gov.bbop.application.model.Application;
 import ph.gov.bbop.application.model.ApplicationDocument;
+import ph.gov.bbop.code.model.Code;
 import ph.gov.bbop.code.util.CodeUtil;
 import ph.gov.bbop.common.CommonConstants;
 
@@ -30,7 +31,9 @@ public class ApplicationDocumentMapper {
         }
         applicationDocumentDto.setId(applicationDocument.getId());
         applicationDocumentDto.setApplId(applicationDocument.getApplication().getId());
-        applicationDocumentDto.setDocumentType(codeUtil.getCodeValue(CommonConstants.CC_DOCUMENT_TYPE, applicationDocument.getDocTypeCode()));
+        Code documentTypeCode = codeUtil.getCode(CommonConstants.CC_DOCUMENT_TYPE, applicationDocument.getDocumentType());
+        applicationDocumentDto.setDocumentType(documentTypeCode.getCode());
+        applicationDocumentDto.setDocumentTypeDescr(documentTypeCode.getCodeDescr());
         applicationDocumentDto.setDocumentName(applicationDocument.getDocumentName());
         applicationDocumentDto.setDocumentPath(applicationDocument.getDocumentPath());
         return applicationDocumentDto;
@@ -45,7 +48,7 @@ public class ApplicationDocumentMapper {
             applicationDocument = new ApplicationDocument();
         }
         applicationDocument.setApplication(application);
-        applicationDocument.setDocTypeCode(applicationDocumentDto.getDocumentType());
+        applicationDocument.setDocumentType(codeUtil.getCode(CommonConstants.CC_DOCUMENT_TYPE, applicationDocumentDto.getDocumentType()).getCode());
         applicationDocument.setDocumentName(applicationDocumentDto.getDocumentName());
         applicationDocument.setDocumentPath(applicationDocumentDto.getDocumentPath());
         return applicationDocument;

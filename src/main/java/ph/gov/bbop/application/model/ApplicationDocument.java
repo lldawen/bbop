@@ -17,15 +17,15 @@ public class ApplicationDocument extends BaseModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BBOP_APPL_REQUIRED_DOC_SEQ")
-    @SequenceGenerator(name = "BBOP_APPL_REQUIRED_DOC_SEQ", sequenceName = "BBOP_APPL_REQUIRED_DOC_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "BBOP_APPL_REQUIRED_DOC_SEQ", sequenceName = "BBOP_APPL_REQUIRED_DOC_SEQ", allocationSize = 1000)
     private Long id;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "APPLICATION_ID")
     private Application application;
 
-    @Column(name = "DOCUMENT_TYPE_CODE", length = 3, nullable = false)
-    private String docTypeCode;
+    @Column(name = "DOCUMENT_TYPE", length = 10, nullable = false)
+    private String documentType;
 
     @Column(name = "DOCUMENT_FILENAME", nullable = false)
     private String documentName;

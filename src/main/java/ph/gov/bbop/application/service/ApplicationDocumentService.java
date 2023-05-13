@@ -28,7 +28,8 @@ public class ApplicationDocumentService {
     private final ApplicationDocumentMapper applicationDocumentMapper;
     private final ApplicationRepository applicationRepository;
 
-    private static final String DOCUMENT_BASE_FOLDER = "documents";
+    @Value("${app.documents.dir}")
+    private String DOCUMENT_BASE_FOLDER;
 
     public ApplicationDocumentService(ApplicationDocumentRepository applicationDocumentRepository, ApplicationDocumentMapper applicationDocumentMapper, ApplicationRepository applicationRepository) {
         this.applicationDocumentRepository = applicationDocumentRepository;
@@ -36,13 +37,13 @@ public class ApplicationDocumentService {
         this.applicationRepository = applicationRepository;
     }
 
-    public List<ApplicationDocumentDto> findAll(int size, int limit) {
-        Page<ApplicationDocument> pagedApplicationDocuments = applicationDocumentRepository.findAll(PageRequest.of(size, limit));
+    public List<ApplicationDocumentDto> findAll(Long applId, int size, int limit) {
+        Page<ApplicationDocument> pagedApplicationDocuments = applicationDocumentRepository.findByApplication(new Application(applId), PageRequest.of(size, limit));
         return applicationDocumentMapper.toDto(pagedApplicationDocuments.getContent());
     }
 
-    public long count() {
-        return applicationDocumentRepository.count();
+    public long countByApplication(Long applId) {
+        return applicationDocumentRepository.countByApplication(new Application(applId));
     }
 
     public ApplicationDocumentDto findById(Long id) {
@@ -56,8 +57,8 @@ public class ApplicationDocumentService {
         }
         try {
             String documentPath = uploadFileToServer(applicationDocumentDto.getApplId(), applicationDocumentDto.getDocumentFile());
-            applicationDocumentDto.setDocumentPath(applicationDocumentDto.getDocumentFile().getOriginalFilename());
-            applicationDocumentDto.setDocumentName(FilenameUtils.getName(documentPath));
+            applicationDocumentDto.setDocumentName(applicationDocumentDto.getDocumentFile().getOriginalFilename());
+            applicationDocumentDto.setDocumentPath(documentPath);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
