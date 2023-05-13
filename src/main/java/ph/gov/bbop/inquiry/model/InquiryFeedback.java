@@ -15,8 +15,8 @@ import ph.gov.bbop.user.model.User;
 public class InquiryFeedback extends BaseModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BBOP_INQUIRY_SEQ")
-    @SequenceGenerator(name = "BBOP_INQUIRY_SEQ", sequenceName = "BBOP_INQUIRY_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BBOP_INQUIRY_FB_SEQ")
+    @SequenceGenerator(name = "BBOP_INQUIRY_FB_SEQ", sequenceName = "BBOP_INQUIRY_FB_SEQ", allocationSize = 1, initialValue = 1000)
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)

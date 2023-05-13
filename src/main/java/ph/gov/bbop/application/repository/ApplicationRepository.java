@@ -10,7 +10,7 @@ import ph.gov.bbop.user.model.User;
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
 
-    Page<Application> findByApplicant(User applicant, PageRequest pageRequest);
+    Page<Application> findByApplicantAndStatusNot(User applicant, String status, PageRequest pageRequest);
 
     long countByApplicant(User applicant);
 }

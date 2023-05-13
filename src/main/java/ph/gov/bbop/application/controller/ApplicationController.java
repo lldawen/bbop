@@ -55,7 +55,13 @@ public class ApplicationController extends CommonRestController {
         return message(applicationService.submit(id));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @PutMapping("/withdraw/{id}")
+    public ResponseEntity<Message> withdraw(@PathVariable Long id) {
+        log.debug("ApplicationController | withdraw | id: {}", id);
+        return message(applicationService.withdraw(id));
+    }
+
+    @PutMapping("/delete/{id}")
     public ResponseEntity<Message> delete(@PathVariable Long id) {
         log.debug("ApplicationController | delete | id: {}", id);
         return message(applicationService.delete(id));

@@ -32,7 +32,7 @@ public class ApplicationService {
     }
 
     public List<ApplicationDto> findAll(String userId, int size, int limit) {
-        Page<Application> pagedApplications = applicationRepository.findByApplicant(new User(userId), PageRequest.of(size, limit));
+        Page<Application> pagedApplications = applicationRepository.findByApplicantAndStatusNot(new User(userId), CommonConstants.APPL_STATUS_DELETED, PageRequest.of(size, limit));
         return applicationMapper.toDto(pagedApplications.getContent());
     }
 
@@ -66,8 +66,15 @@ public class ApplicationService {
 
     public ApplicationDto delete(Long id) {
         Application application = applicationRepository.findById(id).orElseThrow();
-        ApplicationDto applicationDto = applicationMapper.toDto(application);
-        applicationRepository.deleteById(id);
-        return applicationDto;
+        application.setStatus(CommonConstants.APPL_STATUS_DELETED);
+        applicationRepository.save(application);
+        return applicationMapper.toDto(application);
+    }
+
+    public ApplicationDto withdraw(Long id) {
+        Application application = applicationRepository.findById(id).orElseThrow();
+        application.setStatus(CommonConstants.APPL_STATUS_WITHDRAWN);
+        applicationRepository.save(application);
+        return applicationMapper.toDto(application);
     }
 }

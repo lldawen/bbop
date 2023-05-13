@@ -19,7 +19,7 @@ public class Blog extends BaseModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BBOP_BLOG_SEQ")
-    @SequenceGenerator(name = "BBOP_BLOG_SEQ", sequenceName = "BBOP_BLOG_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "BBOP_BLOG_SEQ", sequenceName = "BBOP_BLOG_SEQ", allocationSize = 1, initialValue = 1000)
     private Long id;
 
     @Column(nullable = false)

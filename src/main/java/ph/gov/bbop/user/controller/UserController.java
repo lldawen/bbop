@@ -46,8 +46,23 @@ public class UserController extends CommonRestController {
         return message(userService.update(id, userDto));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Message> delete(@PathVariable String id) {
-        return message(userService.delete(id));
+    @PutMapping ("/setAsAdmin/{id}")
+    public ResponseEntity<Message> setAsAdmin(@PathVariable String id) {
+        return message(userService.setAsAdmin(id));
+    }
+
+    @PutMapping ("/setAsUser/{id}")
+    public ResponseEntity<Message> setAsUser(@PathVariable String id) {
+        return message(userService.setAsUser(id));
+    }
+
+    @PutMapping ("/activate/{id}")
+    public ResponseEntity<Message> activate(@PathVariable String id) {
+        return message(userService.activate(id));
+    }
+
+    @PutMapping ("/deactivate/{id}")
+    public ResponseEntity<Message> deactivate(@PathVariable String id) {
+        return message(userService.deactivate(id));
     }
 }

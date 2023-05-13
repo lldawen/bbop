@@ -27,7 +27,7 @@ public class Application extends BaseModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BBOP_APPLICATION_SEQ")
-    @SequenceGenerator(name = "BBOP_APPLICATION_SEQ", sequenceName = "BBOP_APPLICATION_SEQ", allocationSize = 1000)
+    @SequenceGenerator(name = "BBOP_APPLICATION_SEQ", sequenceName = "BBOP_APPLICATION_SEQ", allocationSize = 1, initialValue = 1000)
     private Long id;
 
     @ManyToOne(optional = false)

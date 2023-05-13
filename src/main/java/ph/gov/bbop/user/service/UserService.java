@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ph.gov.bbop.user.dto.UserDto;
 import ph.gov.bbop.user.dto.UserSearchResultDto;
+import ph.gov.bbop.user.model.Role;
 import ph.gov.bbop.user.model.User;
 import ph.gov.bbop.user.repository.UserRepository;
 import ph.gov.bbop.user.util.UserMapper;
@@ -52,10 +53,33 @@ public class UserService {
         return userMapper.toDto(userRepository.save(userMapper.toEntity(userDto, user)));
     }
 
-    public UserDto delete(String id) {
+    public UserDto setAsAdmin(String id) {
         User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
-        UserDto userDto = userMapper.toDto(user);
-        userRepository.deleteById(id);
-        return userDto;
+        user.setActive(true);
+        user.setRole(Role.ADMIN);
+        userRepository.save(user);
+        return userMapper.toDto(user);
+    }
+
+    public UserDto setAsUser(String id) {
+        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+        user.setActive(true);
+        user.setRole(Role.USER);
+        userRepository.save(user);
+        return userMapper.toDto(user);
+    }
+
+    public UserDto activate(String id) {
+        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+        user.setActive(true);
+        userRepository.save(user);
+        return userMapper.toDto(user);
+    }
+
+    public UserDto deactivate(String id) {
+        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+        user.setActive(false);
+        userRepository.save(user);
+        return userMapper.toDto(user);
     }
 }

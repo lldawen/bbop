@@ -17,7 +17,7 @@ public class ApplicationDocument extends BaseModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BBOP_APPL_REQUIRED_DOC_SEQ")
-    @SequenceGenerator(name = "BBOP_APPL_REQUIRED_DOC_SEQ", sequenceName = "BBOP_APPL_REQUIRED_DOC_SEQ", allocationSize = 1000)
+    @SequenceGenerator(name = "BBOP_APPL_REQUIRED_DOC_SEQ", sequenceName = "BBOP_APPL_REQUIRED_DOC_SEQ", allocationSize = 1, initialValue = 1000)
     private Long id;
 
     @ManyToOne(optional = false)

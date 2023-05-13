@@ -19,7 +19,7 @@ public class Inquiry extends BaseModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BBOP_INQUIRY_SEQ")
-    @SequenceGenerator(name = "BBOP_INQUIRY_SEQ", sequenceName = "BBOP_INQUIRY_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "BBOP_INQUIRY_SEQ", sequenceName = "BBOP_INQUIRY_SEQ", allocationSize = 1, initialValue = 1000)
     private Long id;
 
     @Column(name = "FULL_NAME", length = 255, nullable = false)

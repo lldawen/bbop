@@ -17,7 +17,7 @@ public class Certificate extends BaseModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BBOP_CERTIFICATE_SEQ")
-    @SequenceGenerator(name = "BBOP_CERTIFICATE_SEQ", sequenceName = "BBOP_CERTIFICATE_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "BBOP_CERTIFICATE_SEQ", sequenceName = "BBOP_CERTIFICATE_SEQ", allocationSize = 1, initialValue = 1000)
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
