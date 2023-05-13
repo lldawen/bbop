@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ph.gov.bbop.authentication.dto.AuthenticationRequest;
 import ph.gov.bbop.authentication.dto.AuthenticationResponse;
 import ph.gov.bbop.user.dto.UserDto;
+import ph.gov.bbop.user.model.Role;
 import ph.gov.bbop.user.model.User;
 import ph.gov.bbop.user.repository.UserRepository;
 import ph.gov.bbop.user.service.UserService;
@@ -37,9 +38,12 @@ public class AuthenticationService {
                         authenticationRequest.getPassword()
                 )
         );
-        User user = userRepository.findById(authenticationRequest.getUsername())
+        User user = userRepository.findByIdAndIsActiveTrue(authenticationRequest.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found."));
         String token = jwtAuthenticationService.generateToken(user);
+        if (authenticationRequest.isSignInAsAdmin() && !Role.ADMIN.equals(user.getRole())) {
+            throw new RuntimeException("User not authorized.");
+        }
         log.info("AuthenticationService | authenticate | token = " + token);
 
         return new AuthenticationResponse(token);

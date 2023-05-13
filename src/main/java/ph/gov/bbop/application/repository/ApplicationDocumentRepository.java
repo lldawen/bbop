@@ -7,12 +7,10 @@ import org.springframework.stereotype.Repository;
 import ph.gov.bbop.application.model.Application;
 import ph.gov.bbop.application.model.ApplicationDocument;
 
-import java.awt.print.Pageable;
-
 @Repository
 public interface ApplicationDocumentRepository extends JpaRepository<ApplicationDocument, Long> {
 
-    public Page<ApplicationDocument> findByApplication(Application application, PageRequest pageRequest);
+    public Page<ApplicationDocument> findByApplicationOrderByCreatedDateDesc(Application application, PageRequest pageRequest);
 
     long countByApplication(Application application);
 }

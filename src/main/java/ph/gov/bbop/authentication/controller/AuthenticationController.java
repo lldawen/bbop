@@ -28,7 +28,7 @@ public class AuthenticationController extends CommonRestController {
         return message(authenticationService.register(userDto));
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping({ "/authenticate", "/admin/authenticate" })
     public ResponseEntity<Message> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
         AuthenticationResponse authResponse = authenticationService.authenticate(authenticationRequest);
         HttpHeaders httpHeaders = new HttpHeaders();

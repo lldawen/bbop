@@ -1,7 +1,6 @@
 package ph.gov.bbop.application.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +17,6 @@ import ph.gov.bbop.common.util.FileUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.StringJoiner;
 
 @Slf4j
 @Service
@@ -38,7 +36,7 @@ public class ApplicationDocumentService {
     }
 
     public List<ApplicationDocumentDto> findAll(Long applId, int size, int limit) {
-        Page<ApplicationDocument> pagedApplicationDocuments = applicationDocumentRepository.findByApplication(new Application(applId), PageRequest.of(size, limit));
+        Page<ApplicationDocument> pagedApplicationDocuments = applicationDocumentRepository.findByApplicationOrderByCreatedDateDesc(new Application(applId), PageRequest.of(size, limit));
         return applicationDocumentMapper.toDto(pagedApplicationDocuments.getContent());
     }
 

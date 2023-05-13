@@ -27,4 +27,6 @@ public class Certificate extends BaseModel {
     @Column(name = "GENERATED_FILENAME")
     private String generatedFilename;
 
+    @Column(name = "GENERATED_FILEPATH", nullable = false)
+    private String generatedFilePath;
 }

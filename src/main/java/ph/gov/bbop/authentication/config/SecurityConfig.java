@@ -24,11 +24,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests()
-                .requestMatchers(PathRequest.toH2Console()).permitAll()
-                .requestMatchers("/", "/home", "/auth/**").permitAll()
+//                .requestMatchers(PathRequest.toH2Console()).permitAll()
+//                .requestMatchers("/", "/home", "/auth/**").permitAll()
+                .requestMatchers("/**").permitAll()
 //                .requestMatchers("/api/v1/**").hasAnyRole("ADMIN", "USER")
 //                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
