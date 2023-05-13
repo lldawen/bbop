@@ -1,5 +1,6 @@
 package ph.gov.bbop.user.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,6 +24,7 @@ public class UserDetail extends BaseModel {
     @MapsId
     @JoinColumn(name = "userId", nullable = false)
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private User user;
 
     @Column(name = "FIRST_NAME", length = 50, nullable = false)
