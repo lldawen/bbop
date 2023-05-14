@@ -6,7 +6,13 @@ public final class CommonConstants {
 
     public static final String SYSTEM = "SYSTEM";
     public static final String CC_APPL_TYPE = "APPL_TYPE";
-    public static final String CC_PURPOSE = "APPL_PURPOSE";
+
+    public static final String APPL_TYPE_CLEARANCE = "C";
+    public static final String APPL_TYPE_INDIGENCY = "I";
+    public static final String APPL_TYPE_RESIDENCY = "R";
+    public static final String CC_CLEARANCE_PURPOSE = "APPL_PURPOSE_C";
+    public static final String CC_INDIGENCY_PURPOSE = "APPL_PURPOSE_I";
+    public static final String CC_RESIDENCY_PURPOSE = "APPL_PURPOSE_R";
     public static final String CC_APPL_STATUS = "APPL_STATUS";
     public static final String CC_PAYMENT_MODE = "PAYMENT_MODE";
     public static final String CC_DOCUMENT_TYPE = "DOCUMENT_TYPE";

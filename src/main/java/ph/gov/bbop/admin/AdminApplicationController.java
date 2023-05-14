@@ -56,7 +56,9 @@ public class AdminApplicationController extends CommonRestController {
     @PutMapping("/conveyAndClose/{id}")
     public ResponseEntity<Message> conveyAndClose(@PathVariable Long id) {
         log.debug("ApplicationController | conveyAndClose | id: {}", id);
-        return message(applicationService.conveyAndClose(id));
+        ApplicationDto applicationDto = applicationService.conveyAndClose(id);
+        applicationService.emailEmailToApplicant(id);
+        return message(applicationDto);
     }
 
     @GetMapping("/document/download/{id}")

@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 public final class DateTimeUtil {
 
     private static final DateTimeFormatter DEFAULT_DATE_PATTERN = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter FILENAME_DATE_PATTERN = DateTimeFormatter.ofPattern("yyyyMMdd");
     private static final DateTimeFormatter DEFAULT_DATETIME_PATTERN = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     private DateTimeUtil() {}
 
@@ -22,6 +23,20 @@ public final class DateTimeUtil {
     public static String format(LocalDate localDate) {
         if (localDate != null) {
             return localDate.format(DEFAULT_DATE_PATTERN);
+        }
+        return StringUtils.EMPTY;
+    }
+
+    public static String format(LocalDate localDate, String pattern) {
+        if (localDate != null) {
+            return localDate.format(DateTimeFormatter.ofPattern(pattern));
+        }
+        return StringUtils.EMPTY;
+    }
+
+    public static String formatForFilename(LocalDate localDate) {
+        if (localDate != null) {
+            return localDate.format(FILENAME_DATE_PATTERN);
         }
         return StringUtils.EMPTY;
     }

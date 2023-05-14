@@ -21,16 +21,34 @@ spring:
     console:
       enabled: true
       path: /h2
-logging:
-  level:
-    org:
-      hibernate:
-        sql: debug
-        type:
-          descriptor:
-            sql: trace
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: kdvlhd.misc@gmail.com
+#    password: P@55w0rd01@gmaiL
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#        starttls:
+#          enable: true
+
 app:
   authentication:
     key: 743777217A25432A462D4A614E645267556B58703273357638782F413F442847
   base:
-    dir: F:/Dawen/Brgy Bagongpook Online Portal/bbop-service
+    dir: D:/BBOP/bbop-service
+  documents:
+    dir: D:/BBOP/server-files/documents
+  templates:
+    dir: D:/BBOP/server-files/templates
+  temp:
+    dir: D:/BBOP/server-files/temp
+#logging:
+#  level:
+#    root: "debug"
+#    org.springframework.web: "debug"
+#    org.hibernate: "debug"
+#  file:
+#    path: ${app.project.dir}/app-logs/
+#    name: bbop-service-logs.log

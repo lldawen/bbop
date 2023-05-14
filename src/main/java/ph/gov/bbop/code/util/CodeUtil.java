@@ -27,6 +27,11 @@ public class CodeUtil {
         return codeRepository.findByCategoryAndCode(category, code);
     }
 
+    public String getDescription(String category, String code) {
+        Code codeObj = getCode(category, code);
+        return codeObj == null ? null : codeObj.getCodeDescr();
+    }
+
     public CodeDto getCodeDto(String category, String code) {
         return codeMapper.toDto(getCode(category, code));
     }
