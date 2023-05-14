@@ -21,18 +21,6 @@ spring:
     console:
       enabled: true
       path: /h2
-#  mail:
-#    host: smtp.gmail.com
-#    port: 587
-#    username: kdvlhd.misc@gmail.com
-#    password: P@55w0rd01@gmaiL
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#        starttls:
-#          enable: true
-
 app:
   authentication:
     key: 743777217A25432A462D4A614E645267556B58703273357638782F413F442847
