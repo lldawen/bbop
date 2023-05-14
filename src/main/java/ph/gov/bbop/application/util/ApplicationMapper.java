@@ -46,7 +46,7 @@ public class ApplicationMapper {
         applicationDto.setApplType(applTypeCode.getCode());
         applicationDto.setApplTypeDescr(applTypeCode.getCodeDescr());
 
-        Code purposeCode = codeUtil.getCode(CommonConstants.CC_PURPOSE, application.getPurpose());
+        Code purposeCode = codeUtil.getCode(getPurposeCategory(applicationDto.getApplType()), application.getPurpose());
         applicationDto.setPurpose(purposeCode.getCode());
         applicationDto.setPurposeDescr(purposeCode.getCodeDescr());
 
@@ -95,7 +95,7 @@ public class ApplicationMapper {
         }
         application.setApplicant(userRepository.findById(applicationDto.getApplicantId()).orElseThrow());
         application.setAppType(codeUtil.getCode(CommonConstants.CC_APPL_TYPE, applicationDto.getApplType()).getCode());
-        application.setPurpose(codeUtil.getCode(CommonConstants.CC_PURPOSE, applicationDto.getPurpose()).getCode());
+        application.setPurpose(codeUtil.getCode(getPurposeCategory(applicationDto.getApplType()), applicationDto.getPurpose()).getCode());
         application.setFeeRequired(applicationDto.isFeeRequired());
         application.setFeeAmount(applicationDto.getFeeAmount());
         application.setFeePaid(applicationDto.getFeePaid());
@@ -109,5 +109,18 @@ public class ApplicationMapper {
         application.setCerfificateIssued(applicationDto.isCertificateIssued());
         application.setCertificateIssueDate(DateTimeUtil.parseWithTime(applicationDto.getCertificateIssueDate()));
         return application;
+    }
+
+    private String getPurposeCategory(String applType) {
+        if (CommonConstants.APPL_TYPE_CLEARANCE.equals(applType)) {
+            return CommonConstants.CC_CLEARANCE_PURPOSE;
+        }
+        if (CommonConstants.APPL_TYPE_INDIGENCY.equals(applType)) {
+            return CommonConstants.CC_INDIGENCY_PURPOSE;
+        }
+        if (CommonConstants.APPL_TYPE_RESIDENCY.equals(applType)) {
+            return CommonConstants.CC_RESIDENCY_PURPOSE;
+        }
+        return null;
     }
 }
