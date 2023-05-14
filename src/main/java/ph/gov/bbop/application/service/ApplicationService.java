@@ -1,5 +1,6 @@
 package ph.gov.bbop.application.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,7 @@ import java.time.Period;
 import java.util.*;
 
 @Service
+@Slf4j
 public class ApplicationService {
 
     private final ApplicationRepository applicationRepository;
@@ -153,6 +155,7 @@ public class ApplicationService {
             throw new RuntimeException("Certificate is not yet generated.");
         }
         Certificate certificate = application.getCertificateList().get(0);
+        log.debug("retrieved certificate file path: {}", certificate.getGeneratedFilePath());
         return certificate.getGeneratedFilePath();
     }
 

@@ -27,6 +27,13 @@ public final class DateTimeUtil {
         return StringUtils.EMPTY;
     }
 
+    public static String format(LocalDateTime localDateTime) {
+        if (localDateTime != null) {
+            return localDateTime.format(DEFAULT_DATE_PATTERN);
+        }
+        return StringUtils.EMPTY;
+    }
+
     public static String format(LocalDate localDate, String pattern) {
         if (localDate != null) {
             return localDate.format(DateTimeFormatter.ofPattern(pattern));

@@ -65,8 +65,11 @@ public class AdminApplicationController extends CommonRestController {
     public void download(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
         log.debug("ApplicationController | download | id: {}", id);
         String documentPath = applicationService.getCertificateDocumentPath(id);
-        File file = new File(FileUtil.decodeDocumentPath(documentPath));
+        String decodedDocumentPath = FileUtil.decodeDocumentPath(documentPath);
+        log.debug("decodedDocumentPath: {}", decodedDocumentPath);
+        File file = new File(FileUtil.decodeDocumentPath(decodedDocumentPath));
         if (file.exists()) {
+            log.debug("download starting...");
             FileUtil.downloadFile(request, response, file);
         }
     }

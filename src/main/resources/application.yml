@@ -3,6 +3,7 @@ server:
   servlet:
     session:
       timeout: 3m
+  address: 192.168.254.118
 spring:
   datasource:
     url: jdbc:h2:file:${app.base.dir}/database/bbopdb;DB_CLOSE_ON_EXIT=FALSE
@@ -21,6 +22,8 @@ spring:
     console:
       enabled: true
       path: /h2
+      settings:
+        web-allow-others: true
 app:
   authentication:
     key: 743777217A25432A462D4A614E645267556B58703273357638782F413F442847
@@ -32,7 +35,7 @@ app:
     dir: D:/BBOP/server-files/templates
   temp:
     dir: D:/BBOP/server-files/temp
-#logging:
+logging:
 #  level:
 #    root: "debug"
 #    org.springframework.web: "debug"

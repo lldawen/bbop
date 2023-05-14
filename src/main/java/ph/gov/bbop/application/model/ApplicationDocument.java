@@ -1,5 +1,6 @@
 package ph.gov.bbop.application.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class ApplicationDocument extends BaseModel {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "APPLICATION_ID")
+    @JsonIgnore
     private Application application;
 
     @Column(name = "DOCUMENT_TYPE", length = 10, nullable = false)
