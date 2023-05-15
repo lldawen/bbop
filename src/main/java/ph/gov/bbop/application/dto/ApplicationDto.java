@@ -29,6 +29,7 @@ public class ApplicationDto {
     private boolean isNotifyViaEmail;
     private boolean isCertificateIssued;
     private String certificateIssueDate;
+    private ApplicantDto applicant;
     private List<ApplicationDocumentDto> applDocList = new ArrayList<>();
     private List<CertificateDto> certificateList = new ArrayList<>();
 }

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 public final class DateTimeUtil {
@@ -60,5 +61,12 @@ public final class DateTimeUtil {
             return localDateTime.format(DEFAULT_DATETIME_PATTERN);
         }
         return StringUtils.EMPTY;
+    }
+
+    public static int getAge(LocalDate birthDate) {
+        if (birthDate == null) {
+            return 0;
+        }
+        return Period.between(birthDate, LocalDate.now()).getYears();
     }
 }

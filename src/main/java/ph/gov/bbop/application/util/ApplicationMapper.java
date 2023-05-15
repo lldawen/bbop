@@ -2,6 +2,7 @@ package ph.gov.bbop.application.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import ph.gov.bbop.application.dto.ApplicantDto;
 import ph.gov.bbop.application.dto.ApplicationDto;
 import ph.gov.bbop.application.dto.CertificateDto;
 import ph.gov.bbop.application.model.Application;
@@ -10,9 +11,12 @@ import ph.gov.bbop.code.model.Code;
 import ph.gov.bbop.code.util.CodeUtil;
 import ph.gov.bbop.common.CommonConstants;
 import ph.gov.bbop.common.util.DateTimeUtil;
+import ph.gov.bbop.user.model.User;
+import ph.gov.bbop.user.model.UserDetail;
 import ph.gov.bbop.user.repository.UserRepository;
 
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -122,5 +126,24 @@ public class ApplicationMapper {
             return CommonConstants.CC_RESIDENCY_PURPOSE;
         }
         return null;
+    }
+
+    public ApplicantDto toApplicantDto(User applicant) {
+        ApplicantDto applicantDto = new ApplicantDto();
+        UserDetail applDtl = applicant.getUserDetail();
+        StringJoiner nameJoiner = new StringJoiner(" ");
+        nameJoiner.add(applDtl.getFirstName())
+                .add(applDtl.getMiddleName())
+                .add(applDtl.getLastName());
+        applicantDto.setFullName(nameJoiner.toString());
+        applicantDto.setAge(String.valueOf(DateTimeUtil.getAge(applDtl.getBirthDate())));
+        applicantDto.setContactNo(applDtl.getContactNo1());
+        StringJoiner addrJoiner = new StringJoiner(" ");
+        addrJoiner.add(applDtl.getHouseBlkNo())
+                .add(codeUtil.getDescription(CommonConstants.CC_DISTRICT, applDtl.getDistrict()))
+                .add(codeUtil.getDescription(CommonConstants.CC_STREET, applDtl.getStreet()))
+                        .add("Street");
+        applicantDto.setAddress(addrJoiner.toString());
+        return applicantDto;
     }
 }

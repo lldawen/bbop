@@ -45,7 +45,8 @@ public class ApplicationDocumentService {
     }
 
     public ApplicationDocumentDto findById(Long id) {
-        return applicationDocumentMapper.toDto(applicationDocumentRepository.findById(id).orElse(null));
+        ApplicationDocument applicationDocument = applicationDocumentRepository.findById(id).orElseThrow();
+        return applicationDocumentMapper.toDto(applicationDocument);
     }
 
     public ApplicationDocumentDto create(ApplicationDocumentDto applicationDocumentDto) {

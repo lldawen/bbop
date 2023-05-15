@@ -1,5 +1,7 @@
 package ph.gov.bbop.application.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,7 +9,9 @@ import ph.gov.bbop.application.dto.ApplicationDto;
 import ph.gov.bbop.application.service.ApplicationService;
 import ph.gov.bbop.common.controller.CommonRestController;
 import ph.gov.bbop.common.dto.Message;
+import ph.gov.bbop.common.util.FileUtil;
 
+import java.io.File;
 import java.util.Map;
 
 @Slf4j
@@ -65,5 +69,18 @@ public class ApplicationController extends CommonRestController {
     public ResponseEntity<Message> delete(@PathVariable Long id) {
         log.debug("ApplicationController | delete | id: {}", id);
         return message(applicationService.delete(id));
+    }
+
+    @GetMapping("/download/certificate/{applId}")
+    public void downloadCertificate(@PathVariable Long applId, HttpServletRequest request, HttpServletResponse response) {
+        log.debug("ApplicationController | downloadCertificate | id: {}", applId);
+        String documentPath = applicationService.getCertificateDocumentPath(applId);
+        String decodedDocumentPath = FileUtil.decodeDocumentPath(documentPath);
+        log.debug("decodedDocumentPath: {}", decodedDocumentPath);
+        File file = new File(FileUtil.decodeDocumentPath(decodedDocumentPath));
+        if (file.exists()) {
+            log.debug("download starting...");
+            FileUtil.downloadFile(request, response, file);
+        }
     }
 }

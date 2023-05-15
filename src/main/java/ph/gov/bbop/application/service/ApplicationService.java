@@ -5,6 +5,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import ph.gov.bbop.application.dto.ApplicantDto;
 import ph.gov.bbop.application.dto.ApplicationDto;
 import ph.gov.bbop.application.model.Application;
 import ph.gov.bbop.application.model.Certificate;
@@ -67,7 +68,10 @@ public class ApplicationService {
     }
 
     public ApplicationDto findById(Long id) {
-        return applicationMapper.toDto(applicationRepository.findById(id).orElse(null));
+        Application application = applicationRepository.findById(id).orElseThrow();
+        ApplicationDto applicationDto = applicationMapper.toDto(application);
+        applicationDto.setApplicant(applicationMapper.toApplicantDto(application.getApplicant()));
+        return applicationDto;
     }
 
     public ApplicationDto create(ApplicationDto applicationDto) {
