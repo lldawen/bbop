@@ -20,11 +20,11 @@ public final class FileUtil {
     private static final Base64.Decoder base64Decoder = Base64.getDecoder();
 
     public static String encodeDocumentPath(String documentPath) {
-        return base64Encoder.encodeToString(documentPath.getBytes());
+		return documentPath; //base64Encoder.encodeToString(documentPath.getBytes()); TODO investigate the error java.lang.IllegalArgumentException: Illegal base64 character 3a, due to dashes
     }
 
     public static String decodeDocumentPath(String documentPath) {
-        return new String(base64Decoder.decode(documentPath));
+        return documentPath; //new String(base64Decoder.decode(documentPath)); TODO investigate the error java.lang.IllegalArgumentException: Illegal base64 character 3a, due to dashes
     }
 
     public static void downloadFile(HttpServletRequest request, HttpServletResponse response, File file) {
