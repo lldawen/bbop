@@ -160,7 +160,7 @@ public class ApplicationService {
         }
         Certificate certificate = application.getCertificateList().get(0);
         log.debug("retrieved certificate file path: {}", certificate.getGeneratedFilePath());
-        return certificate.getGeneratedFilePath();
+        return FileUtil.decodeDocumentPath(certificate.getGeneratedFilePath());
     }
 
     /**

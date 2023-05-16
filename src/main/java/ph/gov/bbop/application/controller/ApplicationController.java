@@ -74,10 +74,7 @@ public class ApplicationController extends CommonRestController {
     @GetMapping("/download/certificate/{applId}")
     public void downloadCertificate(@PathVariable Long applId, HttpServletRequest request, HttpServletResponse response) {
         log.debug("ApplicationController | downloadCertificate | id: {}", applId);
-        String documentPath = applicationService.getCertificateDocumentPath(applId);
-        String decodedDocumentPath = FileUtil.decodeDocumentPath(documentPath);
-        log.debug("decodedDocumentPath: {}", decodedDocumentPath);
-        File file = new File(FileUtil.decodeDocumentPath(decodedDocumentPath));
+        File file = new File(applicationService.getCertificateDocumentPath(applId));
         if (file.exists()) {
             log.debug("download starting...");
             FileUtil.downloadFile(request, response, file);

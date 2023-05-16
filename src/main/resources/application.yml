@@ -24,6 +24,10 @@ spring:
       path: /h2
       settings:
         web-allow-others: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 app:
   authentication:
     key: 743777217A25432A462D4A614E645267556B58703273357638782F413F442847

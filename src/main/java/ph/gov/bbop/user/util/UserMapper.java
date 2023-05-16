@@ -1,6 +1,7 @@
 package ph.gov.bbop.user.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import ph.gov.bbop.common.util.AuditableFieldsMapper;
@@ -108,9 +109,9 @@ public class UserMapper {
             UserDetailDto userDetailDto = userDto.getUserDetail();
             userDetail.setUserId(userDto.getId());
             userDetail.setUser(user);
-            userDetail.setFirstName(userDetailDto.getFirstName());
-            userDetail.setLastName(userDetailDto.getLastName());
-            userDetail.setMiddleName(userDetailDto.getMiddleName());
+            userDetail.setFirstName(StringUtils.capitalize(userDetailDto.getFirstName().toLowerCase()));
+            userDetail.setLastName(StringUtils.capitalize(userDetailDto.getLastName().toLowerCase()));
+            userDetail.setMiddleName(StringUtils.capitalize(userDetailDto.getMiddleName().toLowerCase()));
             userDetail.setGender(userDetailDto.getGender());
             userDetail.setBirthDate(DateTimeUtil.parse(userDetailDto.getBirthDate()));
             userDetail.setAge(calculateAge(userDetail.getBirthDate()));
