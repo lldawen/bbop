@@ -103,7 +103,7 @@ public class ApplicationMapper {
         application.setFeeRequired(applicationDto.isFeeRequired());
         application.setFeeAmount(applicationDto.getFeeAmount());
         application.setFeePaid(applicationDto.getFeePaid());
-        application.setPaymentDate(DateTimeUtil.parseWithTime(applicationDto.getPaymentDate()));
+        application.setPaymentDate(DateTimeUtil.parse(applicationDto.getPaymentDate()));
         Code paymentModeCode = codeUtil.getCode(CommonConstants.CC_PAYMENT_MODE, applicationDto.getPaymentMode());
         if (paymentModeCode != null) {
             application.setPaymentMode(paymentModeCode.getCode());

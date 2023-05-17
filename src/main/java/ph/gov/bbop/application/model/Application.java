@@ -10,6 +10,7 @@ import ph.gov.bbop.common.model.BaseModel;
 import ph.gov.bbop.user.model.User;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ public class Application extends BaseModel {
     private BigDecimal feePaid;
 
     @Column(name = "PAYMENT_DATE")
-    private LocalDateTime paymentDate;
+    private LocalDate paymentDate;
 
     @Column(name = "PAYMENT_MODE", length = 10)
     private String paymentMode;

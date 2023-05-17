@@ -113,7 +113,7 @@ public class ApplicationService {
         Application application = applicationRepository.findById(id).orElseThrow();
         application.setPaymentMode(applicationDto.getPaymentMode());
         application.setFeePaid(applicationDto.getFeePaid());
-        application.setPaymentDate(DateTimeUtil.parseWithTime(applicationDto.getPaymentDate()));
+        application.setPaymentDate(DateTimeUtil.parse(applicationDto.getPaymentDate()));
         return applicationMapper.toDto(applicationRepository.save(application));
     }
 
