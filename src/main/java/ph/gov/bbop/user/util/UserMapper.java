@@ -109,9 +109,9 @@ public class UserMapper {
             UserDetailDto userDetailDto = userDto.getUserDetail();
             userDetail.setUserId(userDto.getId());
             userDetail.setUser(user);
-            userDetail.setFirstName(StringUtils.capitalize(userDetailDto.getFirstName().toLowerCase()));
-            userDetail.setLastName(StringUtils.capitalize(userDetailDto.getLastName().toLowerCase()));
-            userDetail.setMiddleName(StringUtils.capitalize(userDetailDto.getMiddleName().toLowerCase()));
+            userDetail.setFirstName(capitalizeName(userDetailDto.getFirstName()));
+            userDetail.setLastName(capitalizeName(userDetailDto.getLastName()));
+            userDetail.setMiddleName(capitalizeName(userDetailDto.getMiddleName()));
             userDetail.setGender(userDetailDto.getGender());
             userDetail.setBirthDate(DateTimeUtil.parse(userDetailDto.getBirthDate()));
             userDetail.setAge(calculateAge(userDetail.getBirthDate()));
@@ -127,6 +127,14 @@ public class UserMapper {
         return user;
     }
 
+    private String capitalizeName(String name) {
+        String[] names = name.split(" ");
+        StringJoiner nameJoiner = new StringJoiner(" ");
+        for (String nameStr : names) {
+            nameJoiner.add(StringUtils.capitalize(nameStr.toLowerCase()));
+        }
+        return nameJoiner.toString();
+    }
     private int calculateAge(LocalDate birthDate) {
         return Period.between(birthDate, LocalDate.now()).getYears();
     }

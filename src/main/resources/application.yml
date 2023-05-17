@@ -3,7 +3,9 @@ server:
   servlet:
     session:
       timeout: 3m
-  address: 192.168.254.118
+#  address: 192.168.254.118 #gomo home wifi
+#  address: 192.168.43.185 #oneplus 7 pro hotspot
+  address: 192.168.101.185 #realme phone ni junjun
 spring:
   datasource:
     url: jdbc:h2:file:${app.base.dir}/database/bbopdb;DB_CLOSE_ON_EXIT=FALSE

@@ -184,7 +184,7 @@ public class ApplicationService {
     private String getApplicantFullName(UserDetail applicant) {
         StringJoiner nameJoiner = new StringJoiner(" ");
         nameJoiner.add(applicant.getFirstName());
-        nameJoiner.add(applicant.getMiddleName().substring(0, 1));
+        nameJoiner.add(applicant.getMiddleName().substring(0, 1) + ".");
         nameJoiner.add(applicant.getLastName());
         return nameJoiner.toString();
 
@@ -210,7 +210,7 @@ public class ApplicationService {
         String applType = codeUtil.getDescription(CommonConstants.CC_APPL_TYPE, application.getAppType());
         parameters.put("toEmail", application.getApplicant().getUserDetail().getEmail());
         parameters.put("subject", "Application for " + applType);
-        parameters.put("body", "Thank you for your application!\\nPlease refer to the attached file for your " + applType + ".");
+        parameters.put("body", "Thank you for your application! Please refer to the attached file for your " + applType + ".");
         Certificate certificate = application.getCertificateList().stream().max(Comparator.comparing(Certificate::getId)).orElseThrow();
         parameters.put("certificate", FileUtil.decodeDocumentPath(certificate.getGeneratedFilePath()));
         return parameters;
